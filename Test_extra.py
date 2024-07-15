@@ -1,3 +1,5 @@
+import pickle
+
 class Animal:
     def __init__(self, name, age):
         self.name = name
@@ -88,26 +90,42 @@ class Zoo:
     def get_employees(self):
         return [employee.name for employee in self.employees]
 
+    def save_to_file(self, filename):
+        with open(filename, 'wb') as file:
+            pickle.dump(self, file)
+
+    @classmethod
+    def load_from_file(cls, filename):
+        try:
+            with open(filename, 'rb') as file:
+                return pickle.load(file)
+        except FileNotFoundError:
+            print(f"Файл {filename} не найден. Создается новый зоопарк.")
+            return cls("Новый Зоопарк")
+
 # Пример использования классов и класса Zoo
-parrot = Bird("Попугай", 2, 0.5)
-lion = Mammal("Лев", 5, "золотой")
-snake = Reptile("Змея", 3, "гладкий")
+if __name__ == "__main__":
+    zoo = Zoo.load_from_file("zoo_data.pkl")
 
-#zookeeper = Employee("Оксана", "Zookeeper")
-zookeeper = ZooKeeper("Оксана", "смотритель")
-guide = Employee("Михаил", "шеф")
-veterinarian = Veterinarian("Мария", "ветеринар")
+    parrot = Bird("Попугай", 2, 0.5)
+    lion = Mammal("Лев", 5, "золотой")
+    snake = Reptile("Змея", 3, "гладкий")
 
-zoo = Zoo("Гороодском зоопарке")
-zoo.add_animal(parrot)
-zoo.add_animal(lion)
-zoo.add_animal(snake)
+    zookeeper = ZooKeeper("Оксана", "смотритель")
+    guide = Employee("Михаил", "шеф")
+    veterinarian = Veterinarian("Мария", "ветеринар")
 
-zoo.add_employee(zookeeper)
-zoo.add_employee(guide)
-zoo.add_employee(veterinarian)
+    zoo.add_animal(parrot)
+    zoo.add_animal(lion)
+    zoo.add_animal(snake)
 
-print(f"Животные в {zoo.name}: {zoo.get_animals()}")
-print(f"Сотрудники в {zoo.name}: {zoo.get_employees()}")
-zookeeper.feed_animal("попугая")
-veterinarian.heal_animal("льва")
+    zoo.add_employee(zookeeper)
+    zoo.add_employee(guide)
+    zoo.add_employee(veterinarian)
+
+    print(f"Животные в {zoo.name}: {zoo.get_animals()}")
+    print(f"Сотрудники в {zoo.name}: {zoo.get_employees()}")
+    zookeeper.feed_animal("Попугая")
+    veterinarian.heal_animal("Льва")
+
+    zoo.save_to_file("zoo_data.pkl")

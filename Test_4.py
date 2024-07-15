@@ -85,8 +85,8 @@ parrot = Bird("Попугай", 2, 0.5)
 lion = Mammal("Лев", 5, "золотой")
 snake = Reptile("Змея", 3, "гладкий")
 
-zookeeper = Employee("Оксана", "Zookeeper")
-guide = Employee("Михаил", "Guide")
+zookeeper = Employee("Оксана", "смотритель")
+guide = Employee("Михаил", "шеф")
 
 zoo = Zoo("Гороодском зоопарке")
 zoo.add_animal(parrot)
